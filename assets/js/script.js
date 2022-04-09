@@ -19,22 +19,24 @@ citySearchHistoryEl.on("click", ".delete-icon", function()
     var cityNameIndex = citySearchHistory.indexOf(cityName);
     citySearchHistory.splice(cityNameIndex, 1) // Removes the city name from the search history
 
-    $(this).parent().remove(); // Removes the city card from the HTML document
+    $(this).parents(".card").remove(); // Removes the city card from the HTML document
 });
 
 function addCityToSearchHistory(cityName)
 {
     citySearchHistory.push(cityName);
 
-    var cityEl = $("<div>");
+    var cityEl = $("<div class='card my-2'>");
+    var cityCardBodyEl = $("<div class='card-body row'>");
+    cityCardBodyEl.appendTo(cityEl);
     
-    var cityNameEl = $("<p class='city-label'>");
+    var cityNameEl = $("<p class='city-label card-text mb-0 col-11'>");
     cityNameEl.text(cityName);
-    cityNameEl.appendTo(cityEl);
+    cityNameEl.appendTo(cityCardBodyEl);
 
-    var deleteIcon = $("<div class='delete-icon'>");
+    var deleteIcon = $("<div class='delete-icon col-1'>");
     deleteIcon.html("<i class='bi bi-x'></i>");
-    deleteIcon.appendTo(cityEl);
+    deleteIcon.appendTo(cityCardBodyEl);
 
     cityEl.appendTo(citySearchHistoryEl);
 }
