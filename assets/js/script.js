@@ -13,15 +13,28 @@ citySearchFormEl.on("submit", function(event)
         addCityToSearchHistory(cityName);
 });
 
+citySearchHistoryEl.on("click", ".delete-icon", function()
+{
+    var cityName = $(this).siblings(".city-label").text();
+    var cityNameIndex = citySearchHistory.indexOf(cityName);
+    citySearchHistory.splice(cityNameIndex, 1) // Removes the city name from the search history
+
+    $(this).parent().remove(); // Removes the city card from the HTML document
+});
+
 function addCityToSearchHistory(cityName)
 {
     citySearchHistory.push(cityName);
 
     var cityEl = $("<div>");
     
-    var cityNameEl = $("<p>");
+    var cityNameEl = $("<p class='city-label'>");
     cityNameEl.text(cityName);
     cityNameEl.appendTo(cityEl);
+
+    var deleteIcon = $("<div class='delete-icon'>");
+    deleteIcon.html("<i class='bi bi-x'></i>");
+    deleteIcon.appendTo(cityEl);
 
     cityEl.appendTo(citySearchHistoryEl);
 }
