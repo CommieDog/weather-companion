@@ -64,7 +64,7 @@ function loadWeatherApiResponse(response)
 {
     console.log(response);
     weatherDisplayEl.find("#weather-city-name").text(cityName); // City name is never received from the server; it must be stored and retrieved locally
-    weatherDisplayEl.find("#weather-date").text(response.current.dt);
+    weatherDisplayEl.find("#weather-date").text("(" + convertUnixTimestampToDate(response.current.dt) + ")");
     weatherDisplayEl.find("#weather-icon").append(loadWeatherIcon(response.current.weather[0].icon, true));
     weatherDisplayEl.find("#weather-temp").text(response.current.temp);
     weatherDisplayEl.find("#weather-humid").text(response.current.humidity);
@@ -74,10 +74,10 @@ function loadWeatherApiResponse(response)
 
     for (var i = 0; i < forecastEls.length; i++)
     {
-        forecastEls[i].find(".forecast-date").text(response.daily[i].dt);
-        forecastEls[i].find(".forecast-icon").append(loadWeatherIcon(response.daily[i].weather[0].icon, false));
-        forecastEls[i].find(".forecast-temp").text(response.daily[i].temp.day);
-        forecastEls[i].find(".forecast-humid").text(response.daily[i].humidity);
+        forecastEls[i].find(".forecast-date").text(convertUnixTimestampToDate(response.daily[i + 1].dt));
+        forecastEls[i].find(".forecast-icon").append(loadWeatherIcon(response.daily[i + 1].weather[0].icon, false));
+        forecastEls[i].find(".forecast-temp").text(response.daily[i + 1].temp.day);
+        forecastEls[i].find(".forecast-humid").text(response.daily[i + 1].humidity);
     }
 }
 
@@ -117,4 +117,9 @@ function applyUVIndexStyling(uvIndexEl, uvIndex)
         uvIndexStyle += "uv-low";
     }
     uvIndexEl.addClass(uvIndexStyle);
+}
+
+function convertUnixTimestampToDate(timestamp)
+{
+    return moment.unix(timestamp).format("M/DD/YYYY");
 }
