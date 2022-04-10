@@ -19,10 +19,6 @@ citySearchFormEl.on("submit", function(event)
     event.preventDefault(); // default behavior is to reload page
 
     var cityName = citySearchInputEl.val();
-    if(citySearchHistory.indexOf(cityName) === -1) // If city name is not present in search history
-    {
-        addCityToSearchHistory(cityName);
-    }
 
     var geocodingUrl = apiCallGeocodingUrlBase + "?q=" + cityName + "&limit=1&appid=" + apiCallAppKey;
     $.getJSON(geocodingUrl, function(data)
@@ -33,11 +29,15 @@ citySearchFormEl.on("submit", function(event)
             alert("City not found!");
             return;
         }
-        var foundCityName = data.name;
+        var cityName = data.name;
+        if(citySearchHistory.indexOf(cityName) === -1) // If city name is not present in search history
+        {
+            addCityToSearchHistory(cityName);
+        }
         var weatherUrl = apiCallWeatherUrlBase + "?lat=" + data.lat +"&lon=" + data.lon + "&exclude=minutely,hourly,alerts&units=imperial&appid=" + apiCallAppKey;
         $.getJSON(weatherUrl, function(data)
         {
-            loadWeatherApiResponse(data, foundCityName);
+            loadWeatherApiResponse(data, cityName);
         });
     });
 });
@@ -54,11 +54,11 @@ citySearchHistoryEl.on("click", "li", function()
             alert("City not found!");
             return;
         }
-        var foundCityName = data.name;
+        var cityName = data.name;
         var weatherUrl = apiCallWeatherUrlBase + "?lat=" + data.lat +"&lon=" + data.lon + "&exclude=minutely,hourly,alerts&units=imperial&appid=" + apiCallAppKey;
         $.getJSON(weatherUrl, function(data)
         {
-            loadWeatherApiResponse(data, foundCityName);
+            loadWeatherApiResponse(data, cityName);
         });
     });
 });
@@ -107,6 +107,8 @@ function loadWeatherApiResponse(response, foundCityName)
         forecastEls[i].find(".forecast-humid").text(response.daily[i + 1].humidity);
     }
 
+    $("#city-search-history li").removeClass("active");
+    alert(foundCityName + " should be active!");
     $("#" + foundCityName).addClass("active");
 }
 
