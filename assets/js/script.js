@@ -5,6 +5,7 @@ const apiCallAppKey = "b712504003eeddbee6d18227b2ef650b";
 const citySearchFormEl = $("#city-search-form");
 const citySearchInputEl = $("#city-search-input");
 const citySearchHistoryEl = $("#city-search-history");
+const weatherDisplayEl = $("#weather-current");
 
 citySearchFormEl.on("submit", function(event)
 {
@@ -16,8 +17,7 @@ citySearchFormEl.on("submit", function(event)
         addCityToSearchHistory(cityName);
     }
 
-    var apiCallUrl = apiCallUrlBase + "?lat=61.2&lon=-149.9&appid=" + apiCallAppKey;
-    var response;
+    var apiCallUrl = apiCallUrlBase + "?lat=61.2&lon=-149.9&exclude=minutely,hourly,alerts&units=imperial&appid=" + apiCallAppKey;
     $.getJSON(apiCallUrl, function(data)
     {
         loadWeatherApiResponse(data);
@@ -55,5 +55,9 @@ function addCityToSearchHistory(cityName)
 function loadWeatherApiResponse(response)
 {
     console.log(response);
-    alert("You got a response!");
+    weatherDisplayEl.find("#weather-date").text(response.current.dt);
+    weatherDisplayEl.find("#weather-temp").text(response.current.temp);
+    weatherDisplayEl.find("#weather-humid").text(response.current.humidity);
+    weatherDisplayEl.find("#weather-wind-speed").text(response.current.wind_speed);
+    weatherDisplayEl.find("#weather-uv").text(response.current.uvi);
 }
