@@ -1,4 +1,6 @@
 const citySearchHistory = [];
+const apiCallUrlBase = "https://api.openweathermap.org/data/2.5/onecall";
+const apiCallAppKey = "b712504003eeddbee6d18227b2ef650b";
 
 const citySearchFormEl = $("#city-search-form");
 const citySearchInputEl = $("#city-search-input");
@@ -10,7 +12,16 @@ citySearchFormEl.on("submit", function(event)
 
     var cityName = citySearchInputEl.val();
     if(citySearchHistory.indexOf(cityName) === -1) // If city name is not present in search history
+    {
         addCityToSearchHistory(cityName);
+    }
+
+    var apiCallUrl = apiCallUrlBase + "?lat=61.2&lon=-149.9&appid=" + apiCallAppKey;
+    var response;
+    $.getJSON(apiCallUrl, function(data)
+    {
+        loadWeatherApiResponse(data);
+    });
 });
 
 citySearchHistoryEl.on("click", ".delete-icon", function()
@@ -39,4 +50,10 @@ function addCityToSearchHistory(cityName)
     deleteIcon.appendTo(cityCardBodyEl);
 
     cityEl.appendTo(citySearchHistoryEl);
+}
+
+function loadWeatherApiResponse(response)
+{
+    console.log(response);
+    alert("You got a response!");
 }
