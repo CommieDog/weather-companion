@@ -65,7 +65,7 @@ function loadWeatherApiResponse(response)
     console.log(response);
     weatherDisplayEl.find("#weather-city-name").text(cityName); // City name is never received from the server; it must be stored and retrieved locally
     weatherDisplayEl.find("#weather-date").text("(" + convertUnixTimestampToDate(response.current.dt) + ")");
-    weatherDisplayEl.find("#weather-icon").append(loadWeatherIcon(response.current.weather[0].icon, true));
+    weatherDisplayEl.find("#weather-icon").attr("src", getWeatherIconUrl(response.current.weather[0].icon, true));
     weatherDisplayEl.find("#weather-temp").text(response.current.temp);
     weatherDisplayEl.find("#weather-humid").text(response.current.humidity);
     weatherDisplayEl.find("#weather-wind-speed").text(response.current.wind_speed);
@@ -75,21 +75,21 @@ function loadWeatherApiResponse(response)
     for (var i = 0; i < forecastEls.length; i++)
     {
         forecastEls[i].find(".forecast-date").text(convertUnixTimestampToDate(response.daily[i + 1].dt));
-        forecastEls[i].find(".forecast-icon").append(loadWeatherIcon(response.daily[i + 1].weather[0].icon, false));
+        forecastEls[i].find(".forecast-icon").attr("src", getWeatherIconUrl(response.daily[i + 1].weather[0].icon, false));
         forecastEls[i].find(".forecast-temp").text(response.daily[i + 1].temp.day);
         forecastEls[i].find(".forecast-humid").text(response.daily[i + 1].humidity);
     }
 }
 
-function loadWeatherIcon(iconCode, isLarge)
+function getWeatherIconUrl(iconCode, isLarge)
 {
-    const weatherIconBaseUrl = "http://openweathermap.org/img/wn/";
+    iconCode = "http://openweathermap.org/img/wn/" + iconCode;
     if(isLarge)
     {
         iconCode += "@2x";
     }
     iconCode += ".png"
-    return $("<img>").attr("src", weatherIconBaseUrl + iconCode);
+    return iconCode;
 }
 
 function applyUVIndexStyling(uvIndexEl, uvIndex)
