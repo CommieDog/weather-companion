@@ -62,6 +62,7 @@ function loadWeatherApiResponse(response)
 {
     console.log(response);
     weatherDisplayEl.find("#weather-date").text(response.current.dt);
+    weatherDisplayEl.find("#weather-icon").append(loadWeatherIcon(response.current.weather[0].icon, true));
     weatherDisplayEl.find("#weather-temp").text(response.current.temp);
     weatherDisplayEl.find("#weather-humid").text(response.current.humidity);
     weatherDisplayEl.find("#weather-wind-speed").text(response.current.wind_speed);
@@ -70,8 +71,19 @@ function loadWeatherApiResponse(response)
     for (var i = 0; i < forecastEls.length; i++)
     {
         forecastEls[i].find(".forecast-date").text(response.daily[i].dt);
-        forecastEls[i].find(".forecast-icon").text(response.daily[i].weather[0].icon);
+        forecastEls[i].find(".forecast-icon").append(loadWeatherIcon(response.daily[i].weather[0].icon, false));
         forecastEls[i].find(".forecast-temp").text(response.daily[i].temp.day);
         forecastEls[i].find(".forecast-humid").text(response.daily[i].humidity);
     }
+}
+
+function loadWeatherIcon(iconCode, isLarge)
+{
+    const weatherIconBaseUrl = "http://openweathermap.org/img/wn/";
+    if(isLarge)
+    {
+        iconCode += "@2x";
+    }
+    iconCode += ".png"
+    return $("<img>").attr("src", weatherIconBaseUrl + iconCode);
 }
