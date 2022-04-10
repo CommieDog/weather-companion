@@ -1,5 +1,6 @@
 const citySearchHistory = [];
-const apiCallUrlBase = "https://api.openweathermap.org/data/2.5/onecall";
+const apiCallGeocodingUrlBase = "http://api.openweathermap.org/geo/1.0/direct";
+const apiCallWeatherUrlBase = "https://api.openweathermap.org/data/2.5/onecall";
 const apiCallAppKey = "b712504003eeddbee6d18227b2ef650b";
 
 const citySearchFormEl = $("#city-search-form");
@@ -25,10 +26,21 @@ citySearchFormEl.on("submit", function(event)
         addCityToSearchHistory(cityName);
     }
 
-    var apiCallUrl = apiCallUrlBase + "?lat=61.2&lon=-149.9&exclude=minutely,hourly,alerts&units=imperial&appid=" + apiCallAppKey;
-    $.getJSON(apiCallUrl, function(data)
+    var geocodingUrl = apiCallGeocodingUrlBase + "?q=" + cityName + "&limit=1&appid=" + apiCallAppKey;
+    $.getJSON(geocodingUrl, function(data)
     {
-        loadWeatherApiResponse(data);
+        data = data[0];
+        if(!data)
+        {
+            alert("City not found!");
+            return;
+        }
+        var foundCityName = data.name;
+        var weatherUrl = apiCallWeatherUrlBase + "?lat=" + data.lat +"&lon=" + data.lon + "&exclude=minutely,hourly,alerts&units=imperial&appid=" + apiCallAppKey;
+        $.getJSON(weatherUrl, function(data)
+        {
+            loadWeatherApiResponse(data, foundCityName);
+        })
     });
 });
 
@@ -60,10 +72,10 @@ function addCityToSearchHistory(cityName)
     cityEl.appendTo(citySearchHistoryEl);
 }
 
-function loadWeatherApiResponse(response)
+function loadWeatherApiResponse(response, foundCityName)
 {
     console.log(response);
-    weatherDisplayEl.find("#weather-city-name").text(cityName); // City name is never received from the server; it must be stored and retrieved locally
+    weatherDisplayEl.find("#weather-city-name").text(foundCityName); // City name is never received from the server; it must be stored and retrieved locally
     weatherDisplayEl.find("#weather-date").text("(" + convertUnixTimestampToDate(response.current.dt) + ")");
     weatherDisplayEl.find("#weather-icon").attr("src", getWeatherIconUrl(response.current.weather[0].icon, true));
     weatherDisplayEl.find("#weather-temp").text(response.current.temp);
