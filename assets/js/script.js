@@ -6,6 +6,12 @@ const citySearchFormEl = $("#city-search-form");
 const citySearchInputEl = $("#city-search-input");
 const citySearchHistoryEl = $("#city-search-history");
 const weatherDisplayEl = $("#weather-current");
+const forecastDay1El = $("#forecast-day-1");
+const forecastDay2El = $("#forecast-day-2");
+const forecastDay3El = $("#forecast-day-3");
+const forecastDay4El = $("#forecast-day-4");
+const forecastDay5El = $("#forecast-day-5");
+const forecastEls = [forecastDay1El, forecastDay2El, forecastDay3El, forecastDay4El, forecastDay5El];
 
 citySearchFormEl.on("submit", function(event)
 {
@@ -60,4 +66,12 @@ function loadWeatherApiResponse(response)
     weatherDisplayEl.find("#weather-humid").text(response.current.humidity);
     weatherDisplayEl.find("#weather-wind-speed").text(response.current.wind_speed);
     weatherDisplayEl.find("#weather-uv").text(response.current.uvi);
+
+    for (var i = 0; i < forecastEls.length; i++)
+    {
+        forecastEls[i].find(".forecast-date").text(response.daily[i].dt);
+        forecastEls[i].find(".forecast-icon").text(response.daily[i].weather[0].icon);
+        forecastEls[i].find(".forecast-temp").text(response.daily[i].temp.day);
+        forecastEls[i].find(".forecast-humid").text(response.daily[i].humidity);
+    }
 }
