@@ -38,17 +38,39 @@ citySearchFormEl.on("submit", function(event)
         $.getJSON(weatherUrl, function(data)
         {
             loadWeatherApiResponse(data, foundCityName);
-        })
+        });
     });
 });
 
-citySearchHistoryEl.on("click", ".btn-close", function()
+citySearchHistoryEl.on("click", "li", function()
+{
+    var cityName = $(this).text();
+    var geocodingUrl = apiCallGeocodingUrlBase + "?q=" + cityName + "&limit=1&appid=" + apiCallAppKey;
+    $.getJSON(geocodingUrl, function(data)
+    {
+        data = data[0];
+        if(!data)
+        {
+            alert("City not found!");
+            return;
+        }
+        var foundCityName = data.name;
+        var weatherUrl = apiCallWeatherUrlBase + "?lat=" + data.lat +"&lon=" + data.lon + "&exclude=minutely,hourly,alerts&units=imperial&appid=" + apiCallAppKey;
+        $.getJSON(weatherUrl, function(data)
+        {
+            loadWeatherApiResponse(data, foundCityName);
+        });
+    });
+});
+
+citySearchHistoryEl.on("click", ".btn-close", function(event)
 {
     var cityName = $(this).parent().text();
     var cityNameIndex = citySearchHistory.indexOf(cityName);
     citySearchHistory.splice(cityNameIndex, 1) // Removes the city name from the search history
-
     $(this).parent().remove(); // Removes the city name from the HTML document
+
+    event.stopPropagation(); // Makes sure that the handler listening for city selection doesn't fire too!
 });
 
 function addCityToSearchHistory(cityName)
@@ -57,6 +79,7 @@ function addCityToSearchHistory(cityName)
 
     var cityEl = $("<li class='list-group-item'>");
     cityEl.text(cityName);
+    cityEl.attr("id", cityName);
 
     var deleteIcon = $("<button class='btn-close float-end'>");
     deleteIcon.appendTo(cityEl);
@@ -83,6 +106,8 @@ function loadWeatherApiResponse(response, foundCityName)
         forecastEls[i].find(".forecast-temp").text(response.daily[i + 1].temp.day);
         forecastEls[i].find(".forecast-humid").text(response.daily[i + 1].humidity);
     }
+
+    $("#" + foundCityName).addClass("active");
 }
 
 function getWeatherIconUrl(iconCode, isLarge)
