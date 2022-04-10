@@ -14,9 +14,11 @@
             <div class="row">
                 <section class="col-4 bg-dark bg-opacity-25">
                     <h2 class="text-center">Search for a City:</h2>
-                    <form id="city-search-form" class="row">
-                        <input id="city-search-input" class="col-10" type="search" name="city-search" title="City Search" placeholder="City Name"/>
-                        <button class="col-2" type="submit"><i class="bi bi-search"></i></button>
+                    <form id="city-search-form">
+                        <div class="input-group">
+                            <input id="city-search-input" class="form-control" type="search" name="city-search" title="City Search" placeholder="City Name"/>
+                            <button type="submit"><i class="bi bi-search"></i></button>
+                        </div>
                     </form>
                     <div id="city-search-history">
                         <!-- Populated dynamically -->
