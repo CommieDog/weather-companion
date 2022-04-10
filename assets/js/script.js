@@ -13,11 +13,13 @@ const forecastDay4El = $("#forecast-day-4");
 const forecastDay5El = $("#forecast-day-5");
 const forecastEls = [forecastDay1El, forecastDay2El, forecastDay3El, forecastDay4El, forecastDay5El];
 
+var cityName;
+
 citySearchFormEl.on("submit", function(event)
 {
     event.preventDefault(); // default behavior is to reload page
 
-    var cityName = citySearchInputEl.val();
+    cityName = citySearchInputEl.val();
     if(citySearchHistory.indexOf(cityName) === -1) // If city name is not present in search history
     {
         addCityToSearchHistory(cityName);
@@ -61,6 +63,7 @@ function addCityToSearchHistory(cityName)
 function loadWeatherApiResponse(response)
 {
     console.log(response);
+    weatherDisplayEl.find("#weather-city-name").text(cityName); // City name is never received from the server; it must be stored and retrieved locally
     weatherDisplayEl.find("#weather-date").text(response.current.dt);
     weatherDisplayEl.find("#weather-icon").append(loadWeatherIcon(response.current.weather[0].icon, true));
     weatherDisplayEl.find("#weather-temp").text(response.current.temp);
