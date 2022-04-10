@@ -1,0 +1,30 @@
+.uv {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.uv-low {
+    background-color: rgb(62, 167, 45);
+    color: white;
+}
+
+.uv-medium {
+    background-color: rgb(255, 243, 0);
+    color: black;
+}
+
+.uv-high {
+    background-color: rgb(241, 139, 0);
+    color: black;
+}
+
+.uv-very-high {
+    background-color: rgb(229, 50, 16);
+    color: white;
+}
+
+.uv-extreme {
+    background-color: rgb(181, 103, 164);
+    color: white;
+}

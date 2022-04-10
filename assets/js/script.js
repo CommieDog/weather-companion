@@ -70,6 +70,7 @@ function loadWeatherApiResponse(response)
     weatherDisplayEl.find("#weather-humid").text(response.current.humidity);
     weatherDisplayEl.find("#weather-wind-speed").text(response.current.wind_speed);
     weatherDisplayEl.find("#weather-uv").text(response.current.uvi);
+    applyUVIndexStyling(weatherDisplayEl.find("#weather-uv"), response.current.uvi);
 
     for (var i = 0; i < forecastEls.length; i++)
     {
@@ -89,4 +90,31 @@ function loadWeatherIcon(iconCode, isLarge)
     }
     iconCode += ".png"
     return $("<img>").attr("src", weatherIconBaseUrl + iconCode);
+}
+
+function applyUVIndexStyling(uvIndexEl, uvIndex)
+{
+    uvIndex = Math.round(uvIndex);
+    var uvIndexStyle = "uv ";
+    if(uvIndex >= 11)
+    {
+        uvIndexStyle += "uv-extreme";
+    }
+    else if(uvIndex >= 8)
+    {
+        uvIndexStyle += "uv-very-high";
+    }
+    else if(uvIndex >= 6)
+    {
+        uvIndexStyle += "uv-high";
+    }
+    else if(uvIndex >= 3)
+    {
+        uvIndexStyle += "uv-medium";
+    }
+    else
+    {
+        uvIndexStyle += "uv-low";
+    }
+    uvIndexEl.addClass(uvIndexStyle);
 }
