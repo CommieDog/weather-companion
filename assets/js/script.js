@@ -129,6 +129,7 @@ function loadWeatherApiResponse(response, foundCityName)
 
     $("#city-search-history li").removeClass("active");
     $("#" + foundCityName).addClass("active");
+    $(".invisible").removeClass("invisible"); // Show weather display
 }
 
 function getWeatherIconUrl(iconCode, isLarge)

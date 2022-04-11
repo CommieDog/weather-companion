@@ -7,13 +7,13 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
         <link rel="stylesheet" href="assets/css/style.css">
     </head>
-    <body class="bg-light">
-        <header>
-            <h1>The Weather Companion</h1>
+    <body class="container-fluid bg-light">
+        <header class="row bg-dark">
+            <h1 class="text-center text-light">The Weather Companion</h1>
         </header>
-        <main class="container">
+        <main>
             <div class="row">
-                <section class="col-4 bg-dark bg-opacity-25">
+                <section class="col-sm-12 col-md-3 bg-dark bg-opacity-10">
                     <h2 class="text-center">Search for a City:</h2>
                     <form id="city-search-form">
                         <div class="input-group">
@@ -25,7 +25,7 @@
                         <!-- Populated dynamically -->
                     </ul>
                 </section>
-                <section class="col-8">
+                <section class="col-sm-12 col-md-9 invisible">
                     <div class="m-3">
                         <section id="weather-current" class="card">
                             <h2><span id="weather-city-name"></span> <span id="weather-date"></span> <img id="weather-icon"></img></h2>
@@ -37,32 +37,32 @@
                         <section>
                             <h2>5-Day Forecast</h2>
                             <div class="row justify-content-between">
-                                <div id="forecast-day-1" class="card col-2">
-                                    <h3 class="forecast-date"></h3>
+                                <div id="forecast-day-1" class="card bg-info bg-opacity-25 col-sm-12 col-md-2">
+                                    <h5 class="card-title forecast-date"></h5>
                                     <div><img class="forecast-icon"></img></div>
                                     <p>Temp: <span class="forecast-temp"></span> &deg;F</p>
                                     <p>Humidity: <span class="forecast-humid"></span>%</p>
                                 </div>
-                                <div id="forecast-day-2" class="card col-2">
-                                    <h3 class="forecast-date"></h3>
+                                <div id="forecast-day-2" class="card bg-info bg-opacity-25 col-sm-12 col-md-2">
+                                    <h5 class="card-title forecast-date"></h5>
                                     <div><img class="forecast-icon"></img></div>
                                     <p>Temp: <span class="forecast-temp"></span> &deg;F</p>
                                     <p>Humidity: <span class="forecast-humid"></span>%</p>
                                 </div>
-                                <div id="forecast-day-3" class="card col-2">
-                                    <h3 class="forecast-date"></h3>
+                                <div id="forecast-day-3" class="card bg-info bg-opacity-25 col-sm-12 col-md-2">
+                                    <h5 class="card-title forecast-date"></h5>
                                     <div><img class="forecast-icon"></img></div>
                                     <p>Temp: <span class="forecast-temp"></span> &deg;F</p>
                                     <p>Humidity: <span class="forecast-humid"></span>%</p>
                                 </div>
-                                <div id="forecast-day-4" class="card col-2">
-                                    <h3 class="forecast-date"></h3>
+                                <div id="forecast-day-4" class="card bg-info bg-opacity-25 col-sm-12 col-md-2">
+                                    <h5 class="card-title forecast-date"></h5>
                                     <div><img class="forecast-icon"></img></div>
                                     <p>Temp: <span class="forecast-temp"></span> &deg;F</p>
                                     <p>Humidity: <span class="forecast-humid"></span>%</p>
                                 </div>
-                                <div id="forecast-day-5" class="card col-2">
-                                    <h3 class="forecast-date"></h3>
+                                <div id="forecast-day-5" class="card bg-info bg-opacity-25 col-sm-12 col-md-2">
+                                    <h5 class="card-title forecast-date"></h5>
                                     <div><img class="forecast-icon"></img></div>
                                     <p>Temp: <span class="forecast-temp"></span> &deg;F</p>
                                     <p>Humidity: <span class="forecast-humid"></span>%</p>
@@ -74,7 +74,7 @@
             </div>
         </main>
         <footer>
-            <h2>Copyright 2022 John Netzel. All rights reserved.</h2>
+            <p class="text-center">Copyright 2022 John Netzel. All rights reserved.</p>
         </footer>
         
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

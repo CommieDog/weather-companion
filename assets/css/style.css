@@ -1,3 +1,7 @@
+main>div {
+    min-height: 600px;
+}
+
 #city-search-history li {
     cursor: pointer;
 }
