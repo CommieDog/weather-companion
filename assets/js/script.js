@@ -1,5 +1,5 @@
 const citySearchHistory = JSON.parse(localStorage.getItem("WeatherCompanionHistory")) || []; // Load search history from local storage if present, else start empty
-const apiCallGeocodingUrlBase = "http://api.openweathermap.org/geo/1.0/direct";
+const apiCallGeocodingUrlBase = "https://api.openweathermap.org/geo/1.0/direct";
 const apiCallWeatherUrlBase = "https://api.openweathermap.org/data/2.5/onecall";
 const apiCallAppKey = "b712504003eeddbee6d18227b2ef650b";
 
