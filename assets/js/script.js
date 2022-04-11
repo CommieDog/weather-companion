@@ -14,6 +14,9 @@ const forecastDay4El = $("#forecast-day-4");
 const forecastDay5El = $("#forecast-day-5");
 const forecastEls = [forecastDay1El, forecastDay2El, forecastDay3El, forecastDay4El, forecastDay5El];
 
+/**
+ * Initialize page
+ */
 function init()
 {
     // Create HTML from search history
@@ -23,6 +26,9 @@ function init()
     }
 }
 
+/**
+ * When city search form is submitted, add city name to history and query for weather data
+ */
 citySearchFormEl.on("submit", function(event)
 {
     event.preventDefault(); // default behavior is to reload page
@@ -51,6 +57,9 @@ citySearchFormEl.on("submit", function(event)
     });
 });
 
+/**
+ * When city search history entry is clicked, query for that city's weather data
+ */
 citySearchHistoryEl.on("click", "li", function()
 {
     var cityName = $(this).text();
@@ -72,6 +81,9 @@ citySearchHistoryEl.on("click", "li", function()
     });
 });
 
+/**
+ * When city search history entry's delete button is clicked, remove that city from history list
+ */
 citySearchHistoryEl.on("click", ".btn-close", function(event)
 {
     var cityName = $(this).parent().text();
@@ -80,6 +92,10 @@ citySearchHistoryEl.on("click", ".btn-close", function(event)
     event.stopPropagation(); // Makes sure that the handler listening for city selection doesn't fire too!
 });
 
+/**
+ * Adds a city name to the site's search history
+ * @param {*} cityName The name of the city to add
+ */
 function addCityToSearchHistory(cityName)
 {
     citySearchHistory.push(cityName);
@@ -87,6 +103,10 @@ function addCityToSearchHistory(cityName)
     addCityToSearchHistoryHtml(cityName);
 }
 
+/**
+ * Adds a city name to the site's search history HTML display
+ * @param {*} cityName The name of the city to add
+ */
 function addCityToSearchHistoryHtml(cityName)
 {
     var cityEl = $("<li class='list-group-item'>");
@@ -99,6 +119,10 @@ function addCityToSearchHistoryHtml(cityName)
     cityEl.appendTo(citySearchHistoryEl);
 }
 
+/**
+ * Removes a city name from the site's search history
+ * @param {*} cityName The name of the city to remove
+ */
 function removeCityFromSearchHistory(cityName)
 {
     var cityNameIndex = citySearchHistory.indexOf(cityName);
@@ -107,6 +131,11 @@ function removeCityFromSearchHistory(cityName)
     $("#" + cityName).remove(); // Removes the city name from the HTML document
 }
 
+/**
+ * Loads a response from the API into the site's weather display
+ * @param {*} response The server's API response
+ * @param {*} foundCityName The name of the city used to query the weather data
+ */
 function loadWeatherApiResponse(response, foundCityName)
 {
     console.log(response);
@@ -132,6 +161,12 @@ function loadWeatherApiResponse(response, foundCityName)
     $(".invisible").removeClass("invisible"); // Show weather display
 }
 
+/**
+ * Assembles the URL of a weather state's icon from its icon code in the API response
+ * @param {*} iconCode The API code of the icon to display
+ * @param {*} isLarge Whether to use the large form of an icon or the small form
+ * @returns The URL to the requested icon
+ */
 function getWeatherIconUrl(iconCode, isLarge)
 {
     iconCode = "http://openweathermap.org/img/wn/" + iconCode;
@@ -143,6 +178,11 @@ function getWeatherIconUrl(iconCode, isLarge)
     return iconCode;
 }
 
+/**
+ * Applies styling to the UV Index display based on its value
+ * @param {*} uvIndexEl The element to style
+ * @param {*} uvIndex the UV Index value
+ */
 function applyUVIndexStyling(uvIndexEl, uvIndex)
 {
     uvIndex = Math.round(uvIndex);
@@ -170,6 +210,11 @@ function applyUVIndexStyling(uvIndexEl, uvIndex)
     uvIndexEl.addClass(uvIndexStyle);
 }
 
+/**
+ * Converts a Unix timestamp into a formatted date
+ * @param {*} timestamp The Unix timestamp value
+ * @returns A formatted date string
+ */
 function convertUnixTimestampToDate(timestamp)
 {
     return moment.unix(timestamp).format("M/DD/YYYY");
