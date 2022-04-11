@@ -1,4 +1,4 @@
-const citySearchHistory = [];
+const citySearchHistory = JSON.parse(localStorage.getItem("WeatherCompanionHistory")) || []; // Load search history from local storage if present, else start empty
 const apiCallGeocodingUrlBase = "http://api.openweathermap.org/geo/1.0/direct";
 const apiCallWeatherUrlBase = "https://api.openweathermap.org/data/2.5/onecall";
 const apiCallAppKey = "b712504003eeddbee6d18227b2ef650b";
@@ -13,6 +13,15 @@ const forecastDay3El = $("#forecast-day-3");
 const forecastDay4El = $("#forecast-day-4");
 const forecastDay5El = $("#forecast-day-5");
 const forecastEls = [forecastDay1El, forecastDay2El, forecastDay3El, forecastDay4El, forecastDay5El];
+
+function init()
+{
+    // Create HTML from search history
+    for (const cityName of citySearchHistory)
+    {
+        addCityToSearchHistoryHtml(cityName);
+    }
+}
 
 citySearchFormEl.on("submit", function(event)
 {
@@ -66,9 +75,7 @@ citySearchHistoryEl.on("click", "li", function()
 citySearchHistoryEl.on("click", ".btn-close", function(event)
 {
     var cityName = $(this).parent().text();
-    var cityNameIndex = citySearchHistory.indexOf(cityName);
-    citySearchHistory.splice(cityNameIndex, 1) // Removes the city name from the search history
-    $(this).parent().remove(); // Removes the city name from the HTML document
+    removeCityFromSearchHistory(cityName);
 
     event.stopPropagation(); // Makes sure that the handler listening for city selection doesn't fire too!
 });
@@ -76,7 +83,12 @@ citySearchHistoryEl.on("click", ".btn-close", function(event)
 function addCityToSearchHistory(cityName)
 {
     citySearchHistory.push(cityName);
+    localStorage.setItem("WeatherCompanionHistory" , JSON.stringify(citySearchHistory))
+    addCityToSearchHistoryHtml(cityName);
+}
 
+function addCityToSearchHistoryHtml(cityName)
+{
     var cityEl = $("<li class='list-group-item'>");
     cityEl.text(cityName);
     cityEl.attr("id", cityName);
@@ -85,6 +97,14 @@ function addCityToSearchHistory(cityName)
     deleteIcon.appendTo(cityEl);
 
     cityEl.appendTo(citySearchHistoryEl);
+}
+
+function removeCityFromSearchHistory(cityName)
+{
+    var cityNameIndex = citySearchHistory.indexOf(cityName);
+    citySearchHistory.splice(cityNameIndex, 1) // Removes the city name from the search history
+    localStorage.setItem("WeatherCompanionHistory" , JSON.stringify(citySearchHistory))
+    $("#" + cityName).remove(); // Removes the city name from the HTML document
 }
 
 function loadWeatherApiResponse(response, foundCityName)
@@ -108,7 +128,6 @@ function loadWeatherApiResponse(response, foundCityName)
     }
 
     $("#city-search-history li").removeClass("active");
-    alert(foundCityName + " should be active!");
     $("#" + foundCityName).addClass("active");
 }
 
@@ -154,3 +173,5 @@ function convertUnixTimestampToDate(timestamp)
 {
     return moment.unix(timestamp).format("M/DD/YYYY");
 }
+
+init();
