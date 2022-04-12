@@ -6,7 +6,7 @@ A traveller's companion for planning trips based on present and future weather c
 
 The Weather Companion is a website that displays both current weather conditions and a 5-day forecast for many locations throughout the world. Users can enter a city name to bring up that city's weather data for a quick and convienient summary useful for many applications, such as planning trips that span muliple cities.
 
-![Screenshot of quiz page.](https://github.com/CommieDog/weather-companion/blob/main/assets/images/readme/weather-companion-screencap.jpg)
+![Screencap of Weather Companion showing typical use case.](https://github.com/CommieDog/weather-companion/blob/main/assets/images/readme/weather-companion-screencap.gif)
 
 A sample deployment of the website is available on [GitHub Pages](https://commiedog.github.io/weather-companion/).
 
