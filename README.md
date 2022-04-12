@@ -28,7 +28,27 @@ The Weather Companion website opens to a simple-looking display with a search pa
 ### Search Panel
 
 The search panel invites users to search for an area's weather report by typing in a city name. If this is the user's first time using the Weather Companion on the current device, the city name entry form will be the only widget displayed on the search panel; otherwise the names of previously searched cities will appear below the form. Submitting the city name form or clicking on the name of a previously searched city will send off an API request using AJAX to OpenWeather's geocoding server to try converting the entered city name to latitude and longitude coordinates. If coordinates are sucessfully received, then the Weather Companion sends another API request to OpenWeather, this time for the coordinates' weather conditions and forecast:
-```JavaSrcipt
+```JavaScript
+var geocodingUrl = apiCallGeocodingUrlBase + "?q=" + cityName + "&limit=1&appid=" + apiCallAppKey;
+$.getJSON(geocodingUrl, function(data)
+{
+    data = data[0];
+    if(!data)
+    {
+        alert("City not found!");
+        return;
+    }
+    var cityName = data.name;
+    if(citySearchHistory.indexOf(cityName) === -1) // If city name is not present in search history
+    {
+        addCityToSearchHistory(cityName);
+    }
+    var weatherUrl = apiCallWeatherUrlBase + "?lat=" + data.lat +"&lon=" + data.lon + "&exclude=minutely,hourly,alerts&units=imperial&appid=" + apiCallAppKey;
+    $.getJSON(weatherUrl, function(data)
+    {
+        loadWeatherApiResponse(data, cityName);
+    });
+});
 ```
 
 ### Weather Display
@@ -42,17 +62,27 @@ As the Weather Compaion is used for different cities, it can build up a large un
 
 ## Features
 
-* A
+* Ability to search for weather conditions by city name
+* Persistent search history of cities for easy future access
+  * Ability to delete unwanted cities from history
+* Display of both current weather and future forecast
+* Condensed weather display that shows the most important data
+* Minimalist layout that hides weather display when empty
 
 
 ## Technologies Used
 
-* A
+* HTML
+* CSS
+  * Bootstrap
+* JavaScript
+  * jQuery
+  * Moment.js
 
 
 ## Future Work
 
-A
+The most obvious feature to add to the Weather Companion would be to add a lightly customizable aspect to the weather display. That way users could focus on what they felt was the most relevant information; the UV index isn't terribly important in northern winters, for instance. Another feature to add might be adding latitude and longitude coordinates to the city search history items to disambiguate different cities with the same name (such as the Athens in Georgia and the Athens in Greece).
 
 
 ## Author
